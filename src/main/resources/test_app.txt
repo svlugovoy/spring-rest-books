@@ -1,0 +1,15 @@
+Postman:
+
+GET http://127.0.0.1:8080/api/book
+GET http://127.0.0.1:8080/api/book/xml Accept: application/xml
+
+GET http://127.0.0.1:8080/api/book/1
+GET http://127.0.0.1:8080/api/book/1 Accept: application/xml
+
+POST http://127.0.0.1:8080/api/book Content-Type: application/json + body
+POST http://127.0.0.1:8080/api/book Content-Type: application/xml + body
+
+PUT http://127.0.0.1:8080/api/book/1 Content-Type: application/json + body
+PUT http://127.0.0.1:8080/api/book/1 Content-Type: application/xml + body
+
+DELETE http://127.0.0.1:8080/api/book/1
