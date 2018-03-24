@@ -13,3 +13,10 @@ PUT http://127.0.0.1:8080/api/book/1 Content-Type: application/json + body
 PUT http://127.0.0.1:8080/api/book/1 Content-Type: application/xml + body
 
 DELETE http://127.0.0.1:8080/api/book/1
+
+
+GET http://127.0.0.1:8080/api/book/1 -> 200
+GET http://127.0.0.1:8080/api/book/0 -> 400
+GET http://127.0.0.1:8080/api/book/abc -> 400
+GET http://127.0.0.1:8080/api/book/111 -> 404
+PUT, DELETE -> 204, 400, 400

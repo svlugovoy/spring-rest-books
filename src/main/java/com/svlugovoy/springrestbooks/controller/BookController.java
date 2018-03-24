@@ -3,7 +3,9 @@ package com.svlugovoy.springrestbooks.controller;
 import com.svlugovoy.springrestbooks.model.Book;
 import com.svlugovoy.springrestbooks.model.Books;
 import com.svlugovoy.springrestbooks.repository.BookRepository;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,17 @@ public class BookController {
     }
 
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public Book findBookById(@PathVariable int id) {
-        return bookRepository.findById(id);
+    public ResponseEntity<Book> findBookById(@PathVariable String id) {
+        int bookId = NumberUtils.toInt(id);
+        if(bookId <= 0) {
+            return ResponseEntity.badRequest().build(); //400
+        }
+
+        Book book = bookRepository.findById(bookId);
+        if(book == null) {
+            return ResponseEntity.notFound().build(); //404
+        }
+        return ResponseEntity.ok(book); //200
     }
 
     @GetMapping
@@ -39,15 +50,33 @@ public class BookController {
     }
 
     @PutMapping(path = "/{id}", consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public void updateBook(@PathVariable int id, @RequestBody Book book) {
-        Book item = bookRepository.findById(id);
-        item.setId(id);
+    public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody Book book) {
+        int bookId = NumberUtils.toInt(id);
+        if(bookId <= 0) {
+            return ResponseEntity.badRequest().build(); //400
+        }
+
+        Book item = bookRepository.findById(bookId);
+        if(book == null) {
+            return ResponseEntity.notFound().build(); //404
+        }
+        item.setId(bookId);
         bookRepository.save(book);
+
+        return ResponseEntity.noContent().build(); //204
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable int id) {
-        bookRepository.delete(id);
+    public ResponseEntity<Book> deleteBook(@PathVariable String id) {
+        int bookId = NumberUtils.toInt(id);
+        if(bookId <= 0) {
+            return ResponseEntity.badRequest().build(); //400
+        }
+
+        if(bookRepository.delete(bookId)) {
+            return ResponseEntity.noContent().build(); //204
+        }
+        return ResponseEntity.notFound().build(); //404
     }
 
 }
