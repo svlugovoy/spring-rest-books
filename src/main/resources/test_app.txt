@@ -23,3 +23,9 @@ PUT, DELETE -> 204, 400, 400
 
 
 GET http://127.0.0.1:8080/api/book/111 + my_header:qwerty -> 404
+
+
+GET http://127.0.0.1:9001/actuator/health
+DELETE http://127.0.0.1:8080/api/book/1 -> GET http://127.0.0.1:9001/actuator/health // "status": "DOWN"
+
+GET http://127.0.0.1:9001/actuator/info
