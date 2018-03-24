@@ -4,10 +4,7 @@ import com.svlugovoy.springrestbooks.model.Book;
 import com.svlugovoy.springrestbooks.model.Books;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
@@ -21,8 +18,8 @@ public class BookRepositoryImpl implements BookRepository {
     private int counter = 3;
 
     @Override
-    public Book findById(int id) {
-        return books.get(id);
+    public Optional<Book> findById(int id) {
+        return Optional.ofNullable(books.get(id));
     }
 
     @Override

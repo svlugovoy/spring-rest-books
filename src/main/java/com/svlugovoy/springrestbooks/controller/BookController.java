@@ -1,5 +1,6 @@
 package com.svlugovoy.springrestbooks.controller;
 
+import com.svlugovoy.springrestbooks.exception.BookNotFoundException;
 import com.svlugovoy.springrestbooks.model.Book;
 import com.svlugovoy.springrestbooks.model.Books;
 import com.svlugovoy.springrestbooks.repository.BookRepository;
@@ -27,10 +28,7 @@ public class BookController {
             return ResponseEntity.badRequest().build(); //400
         }
 
-        Book book = bookRepository.findById(bookId);
-        if(book == null) {
-            return ResponseEntity.notFound().build(); //404
-        }
+        Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new); //404
         return ResponseEntity.ok(book); //200
     }
 
@@ -56,11 +54,9 @@ public class BookController {
             return ResponseEntity.badRequest().build(); //400
         }
 
-        Book item = bookRepository.findById(bookId);
-        if(book == null) {
-            return ResponseEntity.notFound().build(); //404
-        }
-        item.setId(bookId);
+        Book item = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new); //404
+
+        book.setId(bookId);
         bookRepository.save(book);
 
         return ResponseEntity.noContent().build(); //204
