@@ -20,3 +20,6 @@ GET http://127.0.0.1:8080/api/book/0 -> 400
 GET http://127.0.0.1:8080/api/book/abc -> 400
 GET http://127.0.0.1:8080/api/book/111 -> 404
 PUT, DELETE -> 204, 400, 400
+
+
+GET http://127.0.0.1:8080/api/book/111 + my_header:qwerty -> 404
